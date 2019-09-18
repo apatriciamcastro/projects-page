@@ -2,30 +2,31 @@
   <div class="dashboard">
     <h1 class="subheading grey--text">Dashboard</h1>
     <v-container class="my-5">
-
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark v-on="on">Button</v-btn>
-        </template>
-        <span>Tooltip</span>
-      </v-tooltip>
-
       <v-layout row class="mb-3">
-        <v-tooltip></v-tooltip>
-        <v-btn small flat color="grey" @click="sortBy('title')">
-          <v-icon left small>folder</v-icon>
-          <span class="caption text-lowercase">by project title</span>
-        </v-btn>
+        <v-tooltip top>
+          <v-btn small flat color="grey" @click="sortBy('title')" slot="activator">
+            <v-icon left small>folder</v-icon>
+            <span class="caption text-lowercase">by project title</span>
+          </v-btn>
+          <span>Sort projects by its title</span>
+        </v-tooltip>
 
-        <v-btn small flat color="grey" @click="sortBy('status')">
-          <v-icon left small>check_circle_outline</v-icon>
-          <span class="caption text-lowercase">by Status</span>
-        </v-btn>
+        <v-tooltip top>
+          <v-btn small flat color="grey" @click="sortBy('status')" slot="activator">
+            <v-icon left small>check_circle_outline</v-icon>
+            <span class="caption text-lowercase">by Status</span>
+          </v-btn>
+          <span>Sort projects by its status</span>
+        </v-tooltip>
 
-        <v-btn small flat color="grey" @click="sortBy('person')">
-          <v-icon left small>person</v-icon>
-          <span class="caption text-lowercase">by person</span>
-        </v-btn>
+        <v-tooltip top>
+          <v-btn small flat color="grey" @click="sortBy('person')" slot="activator">
+            <v-icon left small>person</v-icon>
+            <span class="caption text-lowercase">by person</span>
+          </v-btn>
+          <span>Sort projects by its creator</span>
+        </v-tooltip>
+         
       </v-layout>
 
       <v-card flat v-for="project in projects" :key="project.title">
@@ -67,7 +68,7 @@ export default {
       projects: [
         {
           title: "Design a new website",
-          person: "The Net Ninja",
+          person: "Patrícia Castro",
           due: "1st Jan 2020",
           status: "Ongoing",
           content:
@@ -91,7 +92,7 @@ export default {
         },
         {
           title: "Create community forum",
-          person: "Gouken",
+          person: "Patrícia Castro",
           due: "20th Oct 2018",
           status: "Overdue",
           content:
