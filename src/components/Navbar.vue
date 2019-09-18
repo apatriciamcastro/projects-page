@@ -38,7 +38,13 @@
           </v-avatar>
           <p class="white--text subheading mt-1">Patrícia Castro</p>
         </v-flex>
+        <v-flex class="mt-4 mb-3">
+          <app-popup></app-popup>
+        </v-flex>
       </v-layout>
+
+
+
       <v-list>
         <v-list-tile v-for="link in links" :key="link.text" router :to="link.route">
           <v-list-tile-action>
@@ -54,6 +60,8 @@
 </template>
 
 <script>
+import Popup from './Popup.vue'
+
 export default {
   data() {
     return {
@@ -64,6 +72,9 @@ export default {
         { icon: "person", text: "Team", route: "/team" }
       ]
     };
+  },
+  components:{
+    'app-popup':Popup
   }
 };
 </script>
