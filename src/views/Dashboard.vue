@@ -26,7 +26,6 @@
           </v-btn>
           <span>Sort projects by its creator</span>
         </v-tooltip>
-         
       </v-layout>
 
       <v-card flat v-for="project in projects" :key="project.title">
@@ -62,49 +61,31 @@
 </template>
 
 <script>
+import db from "@/fb";
+
 export default {
   data() {
     return {
-      projects: [
-        {
-          title: "Design a new website",
-          person: "Patrícia Castro",
-          due: "1st Jan 2020",
-          status: "Ongoing",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a auctor odio, sed viverra nibh. Maecenas eros nibh, pharetra non arcu et, pretium consequat purus. Ut eros dolor, pulvinar ac tempus at, malesuada pretium leo. "
-        },
-        {
-          title: "Code up the homepage",
-          person: "Chun Li",
-          due: "10th Jan 2019",
-          status: "Complete",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a auctor odio, sed viverra nibh. Maecenas eros nibh, pharetra non arcu et, pretium consequat purus. Ut eros dolor, pulvinar ac tempus at, malesuada pretium leo. "
-        },
-        {
-          title: "Design video thumbnails",
-          person: "Ryu",
-          due: "20th Dec 2018",
-          status: "Complete",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a auctor odio, sed viverra nibh. Maecenas eros nibh, pharetra non arcu et, pretium consequat purus. Ut eros dolor, pulvinar ac tempus at, malesuada pretium leo. "
-        },
-        {
-          title: "Create community forum",
-          person: "Patrícia Castro",
-          due: "20th Oct 2018",
-          status: "Overdue",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a auctor odio, sed viverra nibh. Maecenas eros nibh, pharetra non arcu et, pretium consequat purus. Ut eros dolor, pulvinar ac tempus at, malesuada pretium leo. "
-        }
-      ]
+      projects: []
     };
   },
   methods: {
     sortBy(prop) {
       this.projects.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     }
+  },
+  created() {
+    db.collection("projects").onSnapshot(res => {
+      const changes = res.docChanges();
+      changes.forEach(change => {
+        if (change.type === "added") {
+          this.projects.push({
+            ...change.doc.data(),
+            id: change.doc.id
+          });
+        }
+      });
+    });
   }
 };
 </script>
