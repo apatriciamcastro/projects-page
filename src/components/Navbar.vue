@@ -1,5 +1,10 @@
 <template>
   <nav>
+    <v-snackbar v-model="snackbar" :timeout="4000" top color="success">
+      <span>Awesome! You added a new project</span>
+      <v-btn flat color="white" @click="snackbar=false">Close</v-btn>
+    </v-snackbar>
+
     <v-toolbar flat app>
       <v-toolbar-side-icon @click="drawer = !drawer" class="grey--text"></v-toolbar-side-icon>
       <v-toolbar-title class="text-uppercase grey--text">
@@ -8,22 +13,19 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
+      <!-- DROPDOWN MENU -->
 
-    <!-- DROPDOWN MENU -->
-
-    <v-menu offset-y>
-      <v-btn flat slot="activator" color="grey">
-        <v-icon left>expand_more</v-icon>
-        <span>Menu</span>
+      <v-menu offset-y>
+        <v-btn flat slot="activator" color="grey">
+          <v-icon left>expand_more</v-icon>
+          <span>Menu</span>
         </v-btn>
         <v-list>
           <v-list-tile v-for="link in links" :key="link.text" router :to="link.route">
-            <v-list-tile-title>
-              {{ link.text }}
-            </v-list-tile-title>
+            <v-list-tile-title>{{ link.text }}</v-list-tile-title>
           </v-list-tile>
         </v-list>
-    </v-menu>
+      </v-menu>
 
       <v-btn flat color="grey">
         <span>Sign out</span>
@@ -34,16 +36,14 @@
       <v-layout column align-center>
         <v-flex class="mt-5">
           <v-avatar size="80">
-            <img src="avatar-patricia.jpg" alt="">
+            <img src="avatar-patricia.jpg" alt />
           </v-avatar>
           <p class="white--text subheading mt-1">Patrícia Castro</p>
         </v-flex>
         <v-flex class="mt-4 mb-3">
-          <app-popup></app-popup>
+          <app-popup @projectAdded="snackbar=true"></app-popup>
         </v-flex>
       </v-layout>
-
-
 
       <v-list>
         <v-list-tile v-for="link in links" :key="link.text" router :to="link.route">
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import Popup from './Popup.vue'
+import Popup from "./Popup.vue";
 
 export default {
   data() {
@@ -70,11 +70,12 @@ export default {
         { icon: "dashboard", text: "Dashboard", route: "/" },
         { icon: "folder", text: "My Projects", route: "/projects" },
         { icon: "person", text: "Team", route: "/team" }
-      ]
+      ],
+      snackbar: false
     };
   },
-  components:{
-    'app-popup':Popup
+  components: {
+    "app-popup": Popup
   }
 };
 </script>
