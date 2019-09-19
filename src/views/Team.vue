@@ -32,13 +32,37 @@ export default {
   data() {
     return {
       team: [
-        { name: "João Dantas", role: "Head", avatar: '/avatar-joao.jpg' },
-        { name: "Filipe Gonçalves", role: "Backend Developer" , avatar: '/avatar-filipe.jpg'},
-        { name: "Ivo Gonçalves", role: "Fullstack Developer", avatar: '/avatar-ivo.jpg' },
-        { name: "Ivo Petiz", role: "Backend Developer", avatar: '/avatar-petiz.jpg' },
-        { name: "Jorge Fernandes", role: "Junior Backend Developer", avatar: '/avatar-jorge.jpg' },
-        { name: "Patrícia Castro", role: "Junior Frontend Developer", avatar: '/avatar-patricia.jpg' },
-        { name: "Tiago Moreira", role: "Frontend Developer", avatar: '/avatar-tiago.jpg' }
+        { name: "João Dantas", role: "Head", avatar: "/avatar-joao.jpg" },
+        {
+          name: "Filipe Gonçalves",
+          role: "Backend Developer",
+          avatar: "/avatar-filipe.jpg"
+        },
+        {
+          name: "Ivo Gonçalves",
+          role: "Fullstack Developer",
+          avatar: "/avatar-ivo.jpg"
+        },
+        {
+          name: "Ivo Petiz",
+          role: "Backend Developer",
+          avatar: "/avatar-petiz.jpg"
+        },
+        {
+          name: "Jorge Fernandes",
+          role: "Junior Backend Developer",
+          avatar: "/avatar-jorge.jpg"
+        },
+        {
+          name: "Patrícia Castro",
+          role: "Junior Frontend Developer",
+          avatar: "/avatar-patricia.jpg"
+        },
+        {
+          name: "Tiago Moreira",
+          role: "Frontend Developer",
+          avatar: "/avatar-tiago.jpg"
+        }
       ]
     };
   }
