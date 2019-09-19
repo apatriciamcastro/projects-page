@@ -1,55 +1,79 @@
 <template>
-  <v-dialog max-width="600px">
-    <v-btn flat slot="activator" class="success">Add Project</v-btn>
+  <v-dialog max-width="600px" v-model="dialog">
+    <v-btn flat slot="activator" class="success">Add New Project</v-btn>
     <v-card>
       <v-card-title>
-        <h2>New Project</h2>
+        <h2>Add a New Project</h2>
       </v-card-title>
       <v-card-text>
-        <v-form class="px-3">
-          <v-text-field label="Title" v-model="title" prepend-icon="folder" :rules="inputRules"></v-text-field>
-          <v-textarea label="Information" v-model="content" prepend-icon="edit"></v-textarea>
-
-          <v-menu>
+        <v-form class="px-3" ref="form">
+          <v-text-field v-model="title" label="Title" prepend-icon="folder" :rules="inputRules"></v-text-field>
+          <v-textarea v-model="content" label="Information" prepend-icon="edit" :rules="inputRules"></v-textarea>
+          <v-menu v-model="menu" :close-on-content-click="false">
             <v-text-field
-              :value="due"
               slot="activator"
-              v-model="due"
-              label="Date"
+              :rules="inputRules"
+              :value="due"
+              clearable
+              label="Due date"
               prepend-icon="date_range"
-              @blur="date = parseDate(due)"
-              v-on="on"
             ></v-text-field>
-            <v-date-picker v-model="due"></v-date-picker>
+            <v-date-picker v-model="due" @change="menu = false"></v-date-picker>
           </v-menu>
+
           <v-spacer></v-spacer>
-          <v-btn flat class="success mx-8 mt-3" @click="submit">Add Project</v-btn>
+
+          <v-btn flat @click="submit" class="success mx-0 mt-3" :loading="loading">Add Project</v-btn>
         </v-form>
       </v-card-text>
     </v-card>
   </v-dialog>
 </template>
+
 <script>
+import format from "date-fns/format";
+import db from "@/fb";
+
 export default {
   data() {
     return {
       title: "",
       content: "",
       due: new Date().toISOString().substr(0, 10),
-      inputRules: [v => v.length >= 3 || "Minimum length is 3 characters"]
+      menu: false,
+      inputRules: [
+        v => !!v || "This field is required",
+        v => v.length >= 3 || "Minimum length is 3 characters"
+      ],
+      loading: false,
+      dialog: false
     };
   },
   methods: {
     submit() {
-      console.log(this.title, this.content);
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        const project = {
+          title: this.title,
+          content: this.content,
+          due: new Date().toISOString().substr(0, 10),
+          person: "Patrícia Castro",
+          status: "Ongoing"
+        };
+        db.collection("projects")
+          .add(project)
+          .then(() => {
+            this.loading = false;
+            this.dialog = false;
+            this.$emit("projectAdded");
+          });
+      }
     }
   },
   computed: {
-    parseDate(due) {
-      if (!due) return null;
-
-      const [month, day, year] = due.split("/");
-      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    formattedDate() {
+      console.log(this.due);
+      return this.due ? format(this.due, "Do MMM YYYY") : "";
     }
   }
 };
